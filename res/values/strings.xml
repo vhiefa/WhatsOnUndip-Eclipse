@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WhatsOn Undip</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_submit">Submit Event</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_share">Share</string>
+    
+    <string name="sync_account_type">whatsonundip.vhiefa.com</string>
+    <string name="content_authority">com.vhiefa.whatsonundip</string>
+    
+    
+
+</resources>
