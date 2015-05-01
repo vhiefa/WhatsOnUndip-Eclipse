@@ -2,12 +2,10 @@ package com.vhiefa.whatsonundip;
 
 import java.util.Date;
 
-import com.vhiefa.whatsonundip.R.drawable;
 import com.vhiefa.whatsonundip.data.EventContract;
 import com.vhiefa.whatsonundip.data.EventContract.EventEntry;
 import com.vhiefa.whatsonundip.sync.WhatsOnUndipSyncAdapter;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,7 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,26 +21,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-
+/**
+ * Created by Afifatul Mukaroh
+ */
 public class EventFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
     private EventAdapter mEventAdapter;
-    
 
     private static final int EVENT_LOADER = 0;
 
-    // For the forecast view we're showing only a small subset of the stored data.
+    // For the event view we're showing only a small subset of the stored data.
     // Specify the columns we need.
     private static final String[] EVENT_COLUMNS = {
-            // In this case the id needs to be fully qualified with a table name, since
-            // the content provider joins the location & weather tables in the background
-            // (both have an _id column)
-            // On the one hand, that's annoying.  On the other, you can search the weather table
-            // using the location set by the user, which is only in the Location table.
-            // So the convenience is worth it.
             EventEntry.TABLE_NAME + "." + EventEntry._ID,
             EventEntry.COLUMN_EVENT_ID,
             EventEntry.COLUMN_TITLE,
@@ -82,6 +72,7 @@ public class EventFragment extends Fragment implements LoaderCallbacks<Cursor> {
         inflater.inflate(R.menu.eventfragment, menu);
     }
 
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -93,7 +84,7 @@ public class EventFragment extends Fragment implements LoaderCallbacks<Cursor> {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    } 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,15 +103,18 @@ public class EventFragment extends Fragment implements LoaderCallbacks<Cursor> {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Cursor cursor = mEventAdapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position)) {
-                  Intent intent = new Intent(getActivity(), DetailActivity.class)
-                           .putExtra(DetailActivity.ID_KEY, cursor.getString(COL_ID));
-                    startActivity(intent);
+                	((Callback)getActivity())
+                	      .onItemSelected(cursor.getString(COL_ID));
                 }
             }
         });
         
 
         return rootView;
+    }
+    
+    public interface Callback{
+    	public void onItemSelected(String id);
     }
 
     @Override
@@ -129,7 +123,7 @@ public class EventFragment extends Fragment implements LoaderCallbacks<Cursor> {
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void updateEvent() {
+    public void updateEvent() {
     	// WhatsOnUndipSyncAdapter.syncImmediately(getActivity());
         new FetchEventTask(getActivity()).execute();
     }
@@ -152,9 +146,8 @@ public class EventFragment extends Fragment implements LoaderCallbacks<Cursor> {
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // This is called when a new Loader needs to be created.  This
         // fragment only uses one loader, so we don't care about checking the id.
-
         // To only show current and future dates, get the String representation for today,
-        // and filter the query to return weather only for dates after or including today.
+        // and filter the query to return event only for dates after or including today.
     	
         // Only return data after today.
         String startDate = EventContract.getDbDateString(new Date());
@@ -162,7 +155,6 @@ public class EventFragment extends Fragment implements LoaderCallbacks<Cursor> {
         // Sort order:  Ascending, by date.
         String sortOrder = EventEntry.COLUMN_DATE + " ASC";
 
-       // mFee = Utility.getPreferredLocation(getActivity());
         Uri eventUri = EventEntry.buildEventWithStartDate(startDate);
         Log.v("buildEventWithStartDate", eventUri.toString());
         // Now create and return a CursorLoader that will take care of

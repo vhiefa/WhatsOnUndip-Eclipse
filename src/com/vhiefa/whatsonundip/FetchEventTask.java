@@ -1,10 +1,8 @@
 package com.vhiefa.whatsonundip;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -24,6 +22,9 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Vector;
 
+/**
+ * Created by Afifatul Mukaroh
+ */
 public class FetchEventTask extends AsyncTask<Void, Void, Void> {
 
     private final String LOG_TAG = FetchEventTask.class.getSimpleName();
@@ -52,7 +53,7 @@ public class FetchEventTask extends AsyncTask<Void, Void, Void> {
     }
 
     /**
-     * Take the String representing the complete forecast in JSON Format and
+     * Take the String representing the complete event in JSON Format and
      * pull out the data we need to construct the Strings needed for the wireframes.
      *
      * Fortunately parsing is easy:  constructor takes the JSON string and converts it
@@ -78,25 +79,24 @@ public class FetchEventTask extends AsyncTask<Void, Void, Void> {
         JSONObject feedJson = eventJson.getJSONObject(OWM_FEED);
         JSONArray eventResult = feedJson.getJSONArray(OWM_ENTRY);
 
-        // Get and insert the new weather information into the database
+        // Get and insert the new event information into the database
         Vector<ContentValues> cVVector = new Vector<ContentValues>(eventResult.length());
 
         for(int i = 0; i < eventResult.length(); i++) {
             // These are the values that will be collected.
         	
-
             String event_id, title, date, venue, description, category, organizer;
 
-            // Get the JSON object representing the day
-            JSONObject dayEvent = eventResult.getJSONObject(i);
+            // Get the JSON object representing an event
+            JSONObject anEvent = eventResult.getJSONObject(i);
             
-            JSONObject idObj = dayEvent.getJSONObject(OWM_EVENT_ID);
+            JSONObject idObj = anEvent.getJSONObject(OWM_EVENT_ID);
             event_id = idObj.getString("$t");
            
-            JSONObject titleObj = dayEvent.getJSONObject(OWM_TITLE);
+            JSONObject titleObj = anEvent.getJSONObject(OWM_TITLE);
             title = titleObj.getString("$t");
             
-            JSONObject dateObj = dayEvent.getJSONObject(OWM_DATE); 
+            JSONObject dateObj = anEvent.getJSONObject(OWM_DATE); 
             date = dateObj.getString("$t");
             
             String[] timef=date.split("/");  // mm/dd/yyyy
@@ -108,16 +108,16 @@ public class FetchEventTask extends AsyncTask<Void, Void, Void> {
 	        Date tanggal = new Date(year, month, day);
                        
             
-            JSONObject venueObj = dayEvent.getJSONObject(OWM_VENUE);
+            JSONObject venueObj = anEvent.getJSONObject(OWM_VENUE);
             venue = venueObj.getString("$t");
             
-            JSONObject descriptionObj = dayEvent.getJSONObject(OWM_DESCRIPTION);
+            JSONObject descriptionObj = anEvent.getJSONObject(OWM_DESCRIPTION);
             description = descriptionObj.getString("$t");
             
-            JSONObject categoryObj = dayEvent.getJSONObject(OWM_CATEGORY);
+            JSONObject categoryObj = anEvent.getJSONObject(OWM_CATEGORY);
             category = categoryObj.getString("$t");
             
-            JSONObject  organizerObj = dayEvent.getJSONObject(OWM_ORGANIZER);
+            JSONObject  organizerObj = anEvent.getJSONObject(OWM_ORGANIZER);
             organizer = organizerObj.getString("$t");
 
             ContentValues eventValues = new ContentValues();
@@ -154,10 +154,8 @@ public class FetchEventTask extends AsyncTask<Void, Void, Void> {
         String eventJsonStr = null;
 
         try {
-            // Construct the URL for the OpenWeatherMap query
-            // Possible parameters are avaiable at OWM's forecast API page, at
-            // http://openweathermap.org/API#forecast
-            URL url = new URL("https://spreadsheets.google.com/feeds/list/0AszGUUE4pwmQdDg1LTZoa0xDVGktbDNrM1V4amhNRXc/od6/public/values?alt=json");
+
+            URL url = new URL("http://spreadsheets.google.com/feeds/list/1Yh6MxmVd0-pB_SmX2Y62TxnAPIZotEGHzrYT-6BDSqk/od6/public/values?alt=json");
 
             // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();

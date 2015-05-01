@@ -4,17 +4,33 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    
+    
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/ActionBar.Solid.WhatsOnUndip</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    
+
+    <style name="ActionBar.Solid.WhatsOnUndip" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/blue</item>
+    </style>
+    
+    <!--  
+    <style name="MainEventTheme" parent="AppTheme">
+        <item name="actionBarStyle">@style/ActionBar.Solid.WhatsOnUndip.NoTitle</item>
+    </style>
+
+    <style name="ActionBar.Solid.WhatsOnUndip.NoTitle" parent="@style/ActionBar.Solid.WhatsOnUndip">
+        <item name="displayOptions">useLogo|showHome</item>
+        <item name="logo">@drawable/ic_launcher</item>
+    </style>-->
+
+    <!-- Style for forecast listview -->
+    <style name="EventListStyle">
+        <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications
+        for two-pane layout -->
     </style>
 
 </resources>

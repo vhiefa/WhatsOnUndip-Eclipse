@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+<LinearLayout 
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+     >
+     
+    
+    <WebView
+      android:id="@+id/webView1"
+      android:layout_width="match_parent"
+      android:layout_alignParentBottom="true"
+      android:layout_height="wrap_content" />
+    
+    
+     <!-- 
+    <TextView
+        android:text="@string/submiter_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <TextView
+        android:text="@string/submiter_email"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <TextView
+        android:text="@string/event_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <TextView
+        android:text="@string/event_date"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <Button android:id="@+id/eventDate"
+		 android:layout_width="match_parent"
+		 android:layout_height="match_parent"
+	     android:text="Klik untuk memasukan tanggal"/>
+    
+    <TextView
+        android:text="@string/event_venue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <TextView
+        android:text="@string/event_category"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <Spinner
+        android:id="@+id/category_spinnerr"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+     />
+    
+    <TextView
+        android:text="@string/event_organizer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <TextView
+        android:text="@string/event_description"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+		android:layout_margin="5dp"
+		android:textSize="14dp"
+		android:gravity="top" />
+    
+    <Button
+        android:text="@string/action_submit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+     -->
+
+</LinearLayout>
+</ScrollView>

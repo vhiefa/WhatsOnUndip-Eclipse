@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Preference
+        android:title="About"
+        android:summary="Find or share events among Undip students">
+    </Preference>
+    <Preference
+        android:title="Version"
+        android:summary="1.0.0">
+    </Preference>
+    <Preference
+        android:title="Developer"
+        android:summary="afifatul.mukaroh@gmail.com">
+    </Preference>
+    
+</PreferenceScreen>
+

@@ -1,6 +1,5 @@
 package com.vhiefa.whatsonundip;
 
-import com.vhiefa.whatsonundip.data.EventContract.EventEntry;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +10,9 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Created by Afifatul Mukaroh
+ */
 public class EventAdapter extends CursorAdapter{
 
 	
@@ -26,11 +28,7 @@ public class EventAdapter extends CursorAdapter{
    }
 
 	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup parent) {		
-		//int viewType = getItemViewType(cursor.getPosition());
-		
-		//return LayoutInflater.from(context).inflate(R.layout.list_item_event, parent, false);
-		
+	public View newView(Context context, Cursor cursor, ViewGroup parent) {			
 		View view = LayoutInflater.from(context).inflate(R.layout.list_item_event, parent, false);
 		ViewHolder viewHolder = new ViewHolder(view);
 		view.setTag(viewHolder);
@@ -42,23 +40,20 @@ public class EventAdapter extends CursorAdapter{
 
    
 		ViewHolder viewHolder = (ViewHolder) view.getTag();
-		
-	   // int EventId = cursor.getInt(EventFragment.COL_ID);
-	    
 	    		
 	    String dateStr = cursor.getString(EventFragment.COL_EVENT_DATE);
 	    viewHolder.dateView.setText(Utility.formatDate(dateStr));
 
         
         String title = cursor.getString(EventFragment.COL_EVENT_TITLE);
-        viewHolder. titleView .setText(title);
+        viewHolder. titleView .setText(Utility.getShorterTitle(title));
         
         String venue = cursor.getString(EventFragment.COL_EVENT_VENUE);
         viewHolder. venueView .setText(venue);
         
         
         String category = cursor.getString(EventFragment.COL_EVENT_CATEGORY);
-        viewHolder. categoryView.setText(category);
+       // viewHolder. categoryView.setText(category);
 
         viewHolder.iconView.setImageResource(Utility.getIconResourceForEventCategory(category));
 		

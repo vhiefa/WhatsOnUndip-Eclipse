@@ -2,27 +2,32 @@ package com.vhiefa.whatsonundip.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SyncRequest;
+import android.content.Intent;
+import android.content.SharedPreferences;
+//import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.vhiefa.whatsonundip.MainActivity;
 import com.vhiefa.whatsonundip.R;
 import com.vhiefa.whatsonundip.Utility;
 import com.vhiefa.whatsonundip.data.EventContract;
 import com.vhiefa.whatsonundip.data.EventContract.EventEntry;
-
-
-
 
 
 import org.json.JSONArray;
@@ -35,15 +40,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 
 public class WhatsOnUndipSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = WhatsOnUndipSyncAdapter.class.getSimpleName();
 
-    // Interval at which to sync with the weather, in milliseconds.
-    // 60 seconds (1 minute) * 180 = 3 hours
-    public static final int SYNC_INTERVAL = 60 * 180;
+    // Interval at which to sync with the event, in milliseconds.
+    public static final int SYNC_INTERVAL = 60 * 60 * 3; //3 hours
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
 
     public WhatsOnUndipSyncAdapter(Context context, boolean autoInitialize) {
@@ -66,7 +71,7 @@ public class WhatsOnUndipSyncAdapter extends AbstractThreadedSyncAdapter {
             // Construct the URL for the OpenWeatherMap query
             // Possible parameters are avaiable at OWM's forecast API page, at
             // http://openweathermap.org/API#forecast
-            URL url = new URL("https://spreadsheets.google.com/feeds/list/0AszGUUE4pwmQdDg1LTZoa0xDVGktbDNrM1V4amhNRXc/od6/public/values?alt=json");
+            URL url = new URL("http://spreadsheets.google.com/feeds/list/1Yh6MxmVd0-pB_SmX2Y62TxnAPIZotEGHzrYT-6BDSqk/od6/public/values?alt=json");
 
             // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -193,6 +198,16 @@ public class WhatsOnUndipSyncAdapter extends AbstractThreadedSyncAdapter {
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
                 getContext().getContentResolver().bulkInsert(EventEntry.CONTENT_URI, cvArray);
+                
+                //delete yesterday's event
+                Calendar cal = Calendar.getInstance(); //Get's a calendar object with the current time.
+                cal.add(Calendar.DATE, -1); //Signifies yesterday's date
+                String yesterdayDate = EventContract.getDbDateString(cal.getTime());
+                getContext().getContentResolver().delete(EventEntry.CONTENT_URI,
+                		EventEntry.COLUMN_DATE + " <= ?",
+                        new String[] {yesterdayDate});
+                
+               // notifyEvent(); //karena erorr
             }
             Log.d(LOG_TAG, "FetchWeatherTask Complete. " + cVVector.size() + " Inserted");
 
@@ -208,20 +223,20 @@ public class WhatsOnUndipSyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Helper method to schedule the sync adapter periodic execution
      */
-   /* public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
+    public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
         Account account = getSyncAccount(context);
         String authority = context.getString(R.string.content_authority);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+     /*   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // we can enable inexact timers in our periodic sync
             SyncRequest request = new SyncRequest.Builder().
                     syncPeriodic(syncInterval, flexTime).
                     setSyncAdapter(account, authority).build();
             ContentResolver.requestSync(request);
-        } else {
+        } else { */
             ContentResolver.addPeriodicSync(account,
                     authority, new Bundle(), syncInterval);
-        }
-    } */
+       // }
+    } 
 
     /**
      * Helper method to have the sync adapter sync immediately
@@ -268,12 +283,12 @@ public class WhatsOnUndipSyncAdapter extends AbstractThreadedSyncAdapter {
              * then call ContentResolver.setIsSyncable(account, AUTHORITY, 1)
              * here.
              */
-
+            onAccountCreated(newAccount, context);
 
         }
         return newAccount;
     }
-    /*
+    
     
     private static void onAccountCreated(Account newAccount, Context context) {
         
@@ -295,5 +310,5 @@ public class WhatsOnUndipSyncAdapter extends AbstractThreadedSyncAdapter {
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);
     } 
-*/
+
 }

@@ -89,6 +89,10 @@ public class EventContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
         
+        public static Uri buildAllEvent() {
+            return CONTENT_URI.buildUpon().build();
+        }
+        
         public static Uri buildEventWithStartDate(String startDate) {
             return CONTENT_URI.buildUpon().appendQueryParameter(COLUMN_DATE, startDate).build();
         }

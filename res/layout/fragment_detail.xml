@@ -11,44 +11,92 @@
     android:padding="16dp"
      >
      
-        <ImageView
-        android:id="@+id/detail_icon"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" >
+    
+        
+        <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-         />
+        android:orientation="vertical"
+        android:layout_height="wrap_content" >
+        
+	    <ImageView
+	        android:id="@+id/detail_icon"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	         />
+	
+	    <TextView  
+	         
+	        android:layout_gravity="center"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:id="@+id/detail_category_textview" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    
+	    <TextView  
+	        android:gravity="center"
+	        android:textStyle="bold"
+	        android:layout_gravity="center"
+		    android:textColor="@color/blue"
+			android:textSize="20sp"
+			
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:id="@+id/detail_title_textview" />
+    </LinearLayout>
+    
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
     <TextView  
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/detail_title_textview" />
-
-    <TextView  
+         
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/detail_date_textview" />
 
 
     <TextView  
+         
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/detail_venue_textview" />
 
-
     <TextView  
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/detail_category_textview" />
-    
-    <TextView  
+         
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/detail_organizer_textview" />
 
+  </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content" >
+    
     <TextView  
+         
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/detail_description_textview" />
 
+</LinearLayout>
 </LinearLayout>
 </ScrollView>

@@ -6,10 +6,22 @@
     <string name="action_submit">Submit Event</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_share">Share</string>
+    <string name="action_setting">Settings</string>
+    <string name="action_about">About</string>
+    <string name="action_addToCalendar">Add to Calendar</string>
     
     <string name="sync_account_type">whatsonundip.vhiefa.com</string>
     <string name="content_authority">com.vhiefa.whatsonundip</string>
     
     
+     <string name="submiter_name">Nama Anda</string>
+     <string name="submiter_email">Alamat Email Anda</string>
+     
+     <string name="event_name">Nama Acara</string>
+     <string name="event_date">Tanggal Acara</string>
+     <string name="event_venue">Tempat Acara</string>
+     <string name="event_category">Kategori Acara</string>
+     <string name="event_description">Deskripsi Acara</string>
+     <string name="event_organizer">Penyelenggara Acara</string>
 
 </resources>

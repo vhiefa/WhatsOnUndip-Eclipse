@@ -5,8 +5,30 @@
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- API 14 theme customizations can go here. -->
+
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.WhatsOnUndip</item>
     </style>
 
+    
+
+    <!-- ActionBar styles -->
+    <style name="ActionBar.Solid.WhatsOnUndip"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/blue</item>
+    </style>
+<!--  
+    
+    <!- Main activity theme. -
+    <style name="MainEventTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.WhatsOnUndip.NoTitle</item>
+    </style>
+    <!- main activity action bar styles -
+    <style name="ActionBar.Solid.WhatsOnUndip.NoTitle" parent="@style/ActionBar.Solid.WhatsOnUndip">
+        <item name="android:displayOptions">useLogo|showHome</item>
+        <item name="android:logo">@drawable/ic_launcher</item>
+    </style>
+-->
 </resources>

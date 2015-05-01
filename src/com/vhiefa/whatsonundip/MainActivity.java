@@ -1,48 +1,39 @@
 package com.vhiefa.whatsonundip;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.vhiefa.whatsonundip.sync.WhatsOnUndipSyncAdapter;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.os.Build;
-import android.preference.PreferenceManager;
 
 
-public class MainActivity extends ActionBarActivity  {
+/**
+ * Created by Afifatul Mukaroh
+ */
+public class MainActivity extends ActionBarActivity implements EventFragment.Callback  {
 
-    private final String LOG_TAG = MainActivity.class.getSimpleName();
-  //  private boolean mTwoPane;
+    private boolean mTwoPane;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new EventFragment())
-                    .commit();
+        
+        if (findViewById(R.id.event_detail_container)!=null){
+        	mTwoPane = true;
+        	
+        	if (savedInstanceState == null){
+        		getSupportFragmentManager().beginTransaction()
+        		.replace(R.id.event_detail_container, new DetailFragment())
+        		.commit();
+        	} else {
+        		mTwoPane = false;
+        	}
         }
+        
+        WhatsOnUndipSyncAdapter.initializeSyncAdapter(this);
     }
 
 
@@ -60,12 +51,47 @@ public class MainActivity extends ActionBarActivity  {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_submit) {
-           // startActivity(new Intent(this, SettingActivity.class));
+            Intent i = null;
+			i = new Intent(MainActivity.this, SubmitEventActivity.class);
+			startActivity(i);
             return true;
         
         }
+        
+        if (id == R.id.action_about) {
+            Intent i = null;
+			i = new Intent(MainActivity.this, AboutActivity.class);
+			startActivity(i);
+            return true;
+        
+        }
+        
         return super.onOptionsItemSelected(item);
     }
+
+
+	@Override
+	public void onItemSelected(String id) {
+		if (mTwoPane){
+			// In two-pane mode, show the detail view in this activity by
+            // adding or replacing the dtail fragment using a
+            // fragment transaction
+			Bundle args = new Bundle ();
+			args.putString(DetailActivity.ID_KEY, id);
+			
+			DetailFragment fragment = new DetailFragment();
+			fragment.setArguments(args);
+			
+			getSupportFragmentManager().beginTransaction()
+				.replace(R.id.event_detail_container, fragment)
+				.commit();
+		} else {
+			Intent intent = new Intent(this, DetailActivity.class)
+				.putExtra(DetailActivity.ID_KEY, id);
+			startActivity(intent);
+		}
+		
+	}
 
 
 }
